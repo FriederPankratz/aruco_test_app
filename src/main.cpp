@@ -74,13 +74,13 @@ int main(int argc, char **argv) {
     pattern_graph_ptr->connect("source", "output_calibration", "sink_pose1", "input_calibration");
 
 
-    source_pattern->local_pattern.parameter["file"]["value"] = "/home/frieder/data/recording_20210611_calib1/cn03/k4a_capture.mkv";
+    source_pattern->local_pattern.parameter["file"]["value"] = "/data/traact/aruco_test_recording.mkv";
     render_window_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
     render_pose0_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
     render_pose1_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
 
-    aruco_input_pattern->local_pattern.parameter["Dictionary"]["value"] = "DICT_4X4_50";
-    aruco_input_pattern->local_pattern.parameter["MarkerSize"]["value"] = 0.08;
+    aruco_input_pattern->local_pattern.parameter["Dictionary"]["value"] = "ARUCO";
+    aruco_input_pattern->local_pattern.parameter["MarkerSize"]["value"] = 0.1;
     aruco_output0_pattern->local_pattern.parameter["marker_id"]["value"] = 1;
     aruco_output1_pattern->local_pattern.parameter["marker_id"]["value"] = 4;
 

@@ -29,6 +29,11 @@ class Traact(ConanFile):
 
     exports_sources = "CMakeLists.txt", "main.cpp"
 
+    # overwrite these dependencies
+    requires = (
+            "cppfs/1.3.0-r1@camposs/stable",
+            )
+
     def requirements(self):        
         self.requires("traact_run_env/%s@camposs/stable" % self.version)
         self.requires("traact_core/%s@camposs/stable" % self.version)
