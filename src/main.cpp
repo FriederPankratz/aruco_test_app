@@ -13,13 +13,12 @@
 
 #include <boost/timer/timer.hpp>
 #include <traact/util/Logging.h>
-#include <signal.h>
+#include <csignal>
 
 bool running = true;
-traact::facade::DefaultFacade my_facade;
 void ctrlC(int i) {
     spdlog::info("User requested exit (Ctrl-C).");
-    my_facade.stop();
+    running = false;
 }
 
 int main(int argc, char **argv) {
@@ -27,6 +26,8 @@ int main(int argc, char **argv) {
     using namespace traact::facade;
     using namespace traact;
     using namespace traact::dataflow;
+
+    traact::facade::DefaultFacade my_facade{};
 
     util::init_logging(spdlog::level::trace,false, "");
 
