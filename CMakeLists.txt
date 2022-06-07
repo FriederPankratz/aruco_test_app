@@ -23,3 +23,7 @@ add_definitions(-DTBB_PREVIEW_FLOW_GRAPH_NODES=1)
 add_executable(${CONAN_PACKAGE_NAME} src/main.cpp)
 
 conan_target_link_libraries(${CONAN_PACKAGE_NAME})
+
+add_executable(${CONAN_PACKAGE_NAME}_fractal src/main_fractal.cpp)
+
+conan_target_link_libraries(${CONAN_PACKAGE_NAME}_fractal)
