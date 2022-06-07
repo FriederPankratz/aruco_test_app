@@ -32,6 +32,7 @@ class Traact(ConanFile):
     # overwrite these dependencies
     requires = (
             "cppfs/1.3.0-r1@camposs/stable",
+            "onetbb/2021.3.0",
             )
 
     def requirements(self):        

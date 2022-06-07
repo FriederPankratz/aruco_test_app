@@ -42,11 +42,24 @@ int main(int argc, char **argv) {
             aruco_input_pattern = pattern_graph_ptr->addPattern("aruco_input",my_facade.instantiatePattern("ArucoFractalInput"));
     DefaultPatternInstancePtr
             aruco_output0_pattern = pattern_graph_ptr->addPattern("aruco_output0",my_facade.instantiatePattern("ArucoFractalPoseOutput"));
+
+// will be needed for 2d-3d registration from calib_k4a
+//    DefaultPatternInstancePtr
+//            aruco_output1_pattern = pattern_graph_ptr->addPattern("aruco_output1",my_facade.instantiatePattern("ArucoFractalPosition2dListOutput"));
+//    DefaultPatternInstancePtr
+//            aruco_output2_pattern = pattern_graph_ptr->addPattern("aruco_output2",my_facade.instantiatePattern("ArucoFractalPosition3dListOutput"));
+
     DefaultPatternInstancePtr
             aruco_debug_output_pattern = pattern_graph_ptr->addPattern("aruco_debug_output",my_facade.instantiatePattern("ArucoFractalDebugOutput"));
 
     DefaultPatternInstancePtr
             pose_print0_pattern = pattern_graph_ptr->addPattern("pose_print0",my_facade.instantiatePattern("Pose6DPrint"));
+
+// Print components not yet existing:
+//    DefaultPatternInstancePtr
+//            position3dlist_print0_pattern = pattern_graph_ptr->addPattern("sink_position3dlist0",my_facade.instantiatePattern("Position3dListPrint"));
+//    DefaultPatternInstancePtr
+//            position2dlist_print0_pattern = pattern_graph_ptr->addPattern("sink_position2dlist0",my_facade.instantiatePattern("Position2dListPrint"));
 
     DefaultPatternInstancePtr
             render_window_pattern = pattern_graph_ptr->addPattern("sink", my_facade.instantiatePattern("RenderImage"));
@@ -62,11 +75,18 @@ int main(int argc, char **argv) {
     pattern_graph_ptr->connect("aruco_output0", "output", "pose_print0", "input");
 
     pattern_graph_ptr->connect("aruco_debug_output", "output", "sink", "input");
+
     pattern_graph_ptr->connect("aruco_output0", "output", "sink_pose0", "input");
+
+// not yet possible
+//    pattern_graph_ptr->connect("aruco_output1", "output", "sink_position3dlist0", "input");
+//    pattern_graph_ptr->connect("aruco_output2", "output", "sink_position2dlist0", "input");
+
+
     pattern_graph_ptr->connect("source", "output_calibration", "sink_pose0", "input_calibration");
 
 
-    source_pattern->local_pattern.parameter["file"]["value"] = "/data/atlas/trial_18/calibration_1/recordings/cn01/capture-000000.mkv";
+    source_pattern->local_pattern.parameter["file"]["value"] = "/data/traact/fractal_test_or-005.mkv";
     render_window_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
     render_pose0_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
 
