@@ -13,6 +13,10 @@ project(${CONAN_PACKAGE_NAME}_PROJECT VERSION ${CONAN_PACKAGE_VERSION})
 
 conan_basic_setup(TARGETS)
 
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    add_compile_definitions(SPDLOG_DEBUG_ON SPDLOG_TRACE_ON SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
+endif ()
+
 add_executable(${CONAN_PACKAGE_NAME} src/main.cpp)
 
 conan_target_link_libraries(${CONAN_PACKAGE_NAME})

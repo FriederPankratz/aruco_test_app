@@ -17,7 +17,7 @@
 bool running = true;
 traact::facade::DefaultFacade my_facade;
 void ctrlC(int i) {
-    spdlog::info("User requested exit (Ctrl-C).");
+    SPDLOG_INFO("User requested exit (Ctrl-C).");
     my_facade.stop();
 }
 
@@ -136,9 +136,9 @@ int main(int argc, char **argv) {
 //
 //    my_facade.stop();
 
-    spdlog::info("exit program");
+    SPDLOG_INFO("exit program");
 
-    spdlog::info("run the same dataflow again using: traactConsole {0}", filename);
+    SPDLOG_INFO("run the same dataflow again using: traactConsole {0}", filename);
 
     return 0;
 }
