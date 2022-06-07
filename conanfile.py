@@ -5,8 +5,8 @@ from conans import ConanFile, CMake, tools
 
 class Traact(ConanFile):
     name = "aruco_test_app"
-    version = "0.0.1"
-    
+    version = "0.1.0"
+
     description = ""
     url = ""
     license = ""
@@ -14,7 +14,7 @@ class Traact(ConanFile):
 
     short_paths = True
 
-    generators = "cmake", "traact_virtualrunenv_generator"
+    generators = "cmake", "TraactVirtualRunEnvGenerator"
     settings = "os", "compiler", "build_type", "arch"
     compiler = "cppstd"
     options = {
@@ -29,25 +29,18 @@ class Traact(ConanFile):
 
     exports_sources = "CMakeLists.txt", "main.cpp"
 
-    def requirements(self):        
-        self.requires("traact_run_env/%s@camposs/stable" % self.version)
-        self.requires("traact_core/%s@camposs/stable" % self.version)
-        self.requires("traact_spatial/%s@camposs/stable" % self.version)
-        self.requires("traact_vision/%s@camposs/stable" % self.version)
-        self.requires("traact_component_basic/%s@camposs/stable" % self.version)
-        self.requires("traact_component_kinect_azure/%s@camposs/stable" % self.version)
-        self.requires("traact_serialization/%s@camposs/stable" % self.version)
-        self.requires("traact_component_aruco/%s@camposs/stable" % self.version)
-                
-
+    def requirements(self):
+        self.requires("traact_run_env/[>=1.0.0]@camposs/stable")
+        self.requires("traact_core/[>=0.1.0]@camposs/stable")
+        self.requires("traact_spatial/[>=0.1.0]@camposs/stable")
+        self.requires("traact_vision/[>=0.1.0]@camposs/stable")
+        self.requires("traact_component_basic/[>=0.1.0]@camposs/stable")
+        self.requires("traact_component_kinect_azure/[>=0.1.0]@camposs/stable")
+        self.requires("traact_component_cereal/[>=0.1.0]@camposs/stable")
+        self.requires("traact_component_aruco/[>=0.1.0]@camposs/stable")
 
     def configure(self):
         self.options['traact_core'].shared = self.options.shared
         self.options['traact_facade'].shared = self.options.shared
         self.options['traact_spatial'].shared = self.options.shared
-        #self.options['traact_vision'].shared = self.options.shared        
-
-
-
-
-
+        self.options['traact_vision'].shared = self.options.shared

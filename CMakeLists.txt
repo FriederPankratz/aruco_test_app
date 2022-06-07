@@ -13,13 +13,6 @@ project(${CONAN_PACKAGE_NAME}_PROJECT VERSION ${CONAN_PACKAGE_VERSION})
 
 conan_basic_setup(TARGETS)
 
-if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
-    add_definitions(-DTBB_USE_DEBUG=1)
-endif ()
-
-add_definitions(-DTBB_PREVIEW_FLOW_GRAPH_FEATURES=1)
-add_definitions(-DTBB_PREVIEW_FLOW_GRAPH_NODES=1)
-
 add_executable(${CONAN_PACKAGE_NAME} src/main.cpp)
 
 conan_target_link_libraries(${CONAN_PACKAGE_NAME})
