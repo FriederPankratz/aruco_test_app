@@ -3,7 +3,7 @@ import os
 from conans import ConanFile, CMake, tools
 
 
-class Traact(ConanFile):
+class TraactPackage(ConanFile):
     name = "aruco_test_app"
     version = "0.1.0"
 
@@ -35,14 +35,14 @@ class Traact(ConanFile):
     )
 
     def requirements(self):
-        self.requires("traact_run_env/[>=1.0.0]@traact/latest")
-        self.requires("traact_core/[>=0.1.0]@traact/latest")
-        self.requires("traact_spatial/[>=0.1.0]@traact/latest")
-        self.requires("traact_vision/[>=0.1.0]@traact/latest")
-        self.requires("traact_component_basic/[>=0.1.0]@traact/latest")
-        self.requires("traact_component_kinect_azure/[>=0.1.0]@traact/latest")
-        self.requires("traact_component_cereal/[>=0.1.0]@traact/latest")
-        self.requires("traact_component_aruco/[>=0.1.0]@traact/latest")
+        self.requires("traact_run_env/1.0.0@traact/latest")
+        self.requires("traact_core/1.0.0@traact/latest")
+        self.requires("traact_spatial/1.0.0@traact/latest")
+        self.requires("traact_vision/1.0.0@traact/latest")
+        self.requires("traact_component_basic/1.0.0@traact/latest")
+        self.requires("traact_component_kinect_azure/1.0.0@traact/latest")
+        self.requires("traact_component_cereal/1.0.0@traact/latest")
+        self.requires("traact_component_aruco/1.0.0@traact/latest")
 
     def configure(self):
         self.options['traact_core'].shared = self.options.shared
