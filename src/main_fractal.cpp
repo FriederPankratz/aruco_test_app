@@ -88,8 +88,8 @@ int main(int argc, char **argv) {
     pattern_graph_ptr->connect("undistort_color", "output_calibration", "sink_pose0", "input_calibration");
 
 
-    //source_pattern->local_pattern.parameter["file"]["value"] = "/data/traact/fractal_test_or-005.mkv";
-    source_pattern->local_pattern.parameter["file"]["value"] = "/home/frieder/data/fractal_test_or-005.mkv";
+    source_pattern->local_pattern.parameter["file"]["value"] = "/data/traact/fractal_test_or-005.mkv";
+    //source_pattern->local_pattern.parameter["file"]["value"] = "/home/frieder/data/fractal_test_or-005.mkv";
     render_window_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
     render_pose0_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
 
