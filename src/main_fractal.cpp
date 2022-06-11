@@ -83,13 +83,13 @@ int main(int argc, char **argv) {
     pattern_graph_ptr->connect("undistort_color", "output_calibration", "sink_pose0", "input_calibration");
 
 
-    //source_pattern->local_pattern.parameter["file"]["value"] = "/data/traact/fractal_test_or-005.mkv";
-    source_pattern->local_pattern.parameter["file"]["value"] = "/home/frieder/data/fractal_test_or-005.mkv";
-    render_window_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
-    render_pose0_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
+    //source_pattern->setParameter("file", "/data/traact/fractal_test_or-005.mkv");
+    source_pattern->setParameter("file", "/home/frieder/data/fractal_test_or-005.mkv");
+    render_window_pattern->setParameter("window", "ArucoImage");
+    render_pose0_pattern->setParameter("window", "ArucoImage");
 
-    aruco_tracker_pattern->local_pattern.parameter["MarkerConfig"]["value"] = "FRACTAL_4L_6";
-    aruco_tracker_pattern->local_pattern.parameter["MarkerSize"]["value"] = 0.2835;
+    aruco_tracker_pattern->setParameter("MarkerConfig", "FRACTAL_4L_6");
+    aruco_tracker_pattern->setParameter("MarkerSize", 0.2835);
 
 
     buffer::TimeDomainManagerConfig td_config;

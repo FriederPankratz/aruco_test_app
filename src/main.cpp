@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
     DefaultPatternInstancePtr
         source_pattern =
-        pattern_graph_ptr->addPattern("source", my_facade.instantiatePattern("KinectAzureSingleFilePlayer"));
+        pattern_graph_ptr->addPattern("source", my_facade.instantiatePattern("traact::component::kinect::KinectAzureSingleFilePlayer"));
 
     DefaultPatternInstancePtr
         color_to_gray_pattern =
@@ -67,13 +67,12 @@ int main(int argc, char **argv) {
     pattern_graph_ptr->connect("aruco_output0", "output", "pose_print0", "input");
     pattern_graph_ptr->connect("aruco_output1", "output", "pose_print1", "input");
 
-    source_pattern->local_pattern.parameter["file"]["value"] =
-        "/home/frieder/data/recording_20210611_calib1/cn03/k4a_capture.mkv";
-    source_pattern->local_pattern.parameter["stop_after_n_frames"]["value"] = -1;
-    aruco_input_pattern->local_pattern.parameter["Dictionary"]["value"] = "DICT_4X4_50";
-    aruco_input_pattern->local_pattern.parameter["MarkerSize"]["value"] = 0.08;
-    aruco_output0_pattern->local_pattern.parameter["marker_id"]["value"] = 1;
-    aruco_output1_pattern->local_pattern.parameter["marker_id"]["value"] = 4;
+    source_pattern->setParameter("file", "/home/frieder/data/recording_20210611_calib1/cn03/k4a_capture.mkv");
+    source_pattern->setParameter("stop_after_n_frames", -1);
+    aruco_input_pattern->setParameter("Dictionary", "DICT_4X4_50");
+    aruco_input_pattern->setParameter("MarkerSize", 0.08);
+    aruco_output0_pattern->setParameter("marker_id", 1);
+    aruco_output1_pattern->setParameter("marker_id", 4);
 
 #ifdef WITH_RENDERER
     DefaultPatternInstancePtr
@@ -88,17 +87,15 @@ int main(int argc, char **argv) {
         render_pose1_pattern =
         pattern_graph_ptr->addPattern("sink_pose1", my_facade.instantiatePattern("RenderPose6D"));
 
-
     pattern_graph_ptr->connect("aruco_debug_output", "output", "sink", "input");
     pattern_graph_ptr->connect("aruco_output0", "output", "sink_pose0", "input");
     pattern_graph_ptr->connect("undistort_color", "output_calibration", "sink_pose0", "input_calibration");
     pattern_graph_ptr->connect("aruco_output1", "output", "sink_pose1", "input");
     pattern_graph_ptr->connect("undistort_color", "output_calibration", "sink_pose1", "input_calibration");
 
-
-    render_window_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
-    render_pose0_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
-    render_pose1_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
+    render_window_pattern->setParameter("window", "ArucoImage");
+    render_pose0_pattern->setParameter("window", "ArucoImage");
+    render_pose1_pattern->setParameter("window", "ArucoImage");
 #endif
 
     buffer::TimeDomainManagerConfig td_config;
@@ -113,20 +110,20 @@ int main(int argc, char **argv) {
 
     pattern_graph_ptr->timedomain_configs[0] = td_config;
 
-    std::string filename = pattern_graph_ptr->name + ".json";
-    {
-        nlohmann::json jsongraph;
-        ns::to_json(jsongraph, *pattern_graph_ptr);
+//    std::string filename = pattern_graph_ptr->name + ".json";
+//    {
+//        nlohmann::json jsongraph;
+//        ns::to_json(jsongraph, *pattern_graph_ptr);
+//
+//        std::ofstream myfile;
+//        myfile.open(filename);
+//        myfile << jsongraph.dump(4);
+//        myfile.close();
+//
+//        std::cout << jsongraph.dump(4) << std::endl;
+//    }
 
-        std::ofstream myfile;
-        myfile.open(filename);
-        myfile << jsongraph.dump(4);
-        myfile.close();
-
-        std::cout << jsongraph.dump(4) << std::endl;
-    }
-
-    my_facade.loadDataflow(filename);
+    my_facade.loadDataflow(pattern_graph_ptr);
 
     my_facade.blockingStart();
 
@@ -138,7 +135,7 @@ int main(int argc, char **argv) {
 
     SPDLOG_INFO("exit program");
 
-    SPDLOG_INFO("run the same dataflow again using: traactConsole {0}", filename);
+    //SPDLOG_INFO("run the same dataflow again using: traactConsole {0}", filename);
 
     return 0;
 }
