@@ -7,7 +7,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 #include <traact/serialization/JsonGraphInstance.h>
-#include <traact/component/facade/ApplicationSyncSink.h>
+#include <traact/component/generic/ApplicationSyncSink.h>
 
 
 #include <csignal>
@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
     DefaultInstanceGraphPtr pattern_graph_ptr = std::make_shared<DefaultInstanceGraph>("tracking_fractal");
 
     DefaultPatternInstancePtr
-            source_pattern = pattern_graph_ptr->addPattern("source",my_facade.instantiatePattern("KinectAzureSingleFilePlayer"));
+            source_pattern = pattern_graph_ptr->addPattern("source",my_facade.instantiatePattern("traact::component::kinect::KinectAzureSingleFilePlayer"));
     DefaultPatternInstancePtr
         undistort_color_pattern =
             pattern_graph_ptr->addPattern("undistort_color", my_facade.instantiatePattern("OpenCVUndistortImage"));
@@ -39,9 +39,8 @@ int main(int argc, char **argv) {
     DefaultPatternInstancePtr
             color_to_gray_pattern = pattern_graph_ptr->addPattern("color_to_gray",my_facade.instantiatePattern("OpenCvColorToGray"));
     DefaultPatternInstancePtr
-            aruco_input_pattern = pattern_graph_ptr->addPattern("aruco_input",my_facade.instantiatePattern("ArucoFractalInput"));
-    DefaultPatternInstancePtr
-            aruco_output0_pattern = pattern_graph_ptr->addPattern("aruco_output0",my_facade.instantiatePattern("ArucoFractalPoseOutput"));
+            aruco_tracker_pattern = pattern_graph_ptr->addPattern("aruco_fractal_tracker",my_facade.instantiatePattern("ArucoFractalTracker"));
+
 
 // will be needed for 2d-3d registration from calib_k4a
 //    DefaultPatternInstancePtr
@@ -49,8 +48,6 @@ int main(int argc, char **argv) {
 //    DefaultPatternInstancePtr
 //            aruco_output2_pattern = pattern_graph_ptr->addPattern("aruco_output2",my_facade.instantiatePattern("ArucoFractalPosition3dListOutput"));
 
-    DefaultPatternInstancePtr
-            aruco_debug_output_pattern = pattern_graph_ptr->addPattern("aruco_debug_output",my_facade.instantiatePattern("ArucoFractalDebugOutput"));
 
     DefaultPatternInstancePtr
             pose_print0_pattern = pattern_graph_ptr->addPattern("pose_print0",my_facade.instantiatePattern("Pose6DPrint"));
@@ -70,15 +67,13 @@ int main(int argc, char **argv) {
     pattern_graph_ptr->connect("source", "output", "undistort_color", "input");
     pattern_graph_ptr->connect("source", "output_calibration", "undistort_color", "input_calibration");
     pattern_graph_ptr->connect("undistort_color", "output", "color_to_gray", "input");
-    pattern_graph_ptr->connect("color_to_gray", "output", "aruco_input", "input");
-    pattern_graph_ptr->connect("undistort_color", "output_calibration", "aruco_input", "input_calibration");
+    pattern_graph_ptr->connect("color_to_gray", "output", "aruco_fractal_tracker", "input");
+    pattern_graph_ptr->connect("undistort_color", "output_calibration", "aruco_fractal_tracker", "input_calibration");
 
     // render output
-    pattern_graph_ptr->connect("aruco_output0", "output", "pose_print0", "input");
-
-    pattern_graph_ptr->connect("aruco_debug_output", "output", "sink", "input");
-
-    pattern_graph_ptr->connect("aruco_output0", "output", "sink_pose0", "input");
+    pattern_graph_ptr->connect("aruco_fractal_tracker", "output", "pose_print0", "input");
+    pattern_graph_ptr->connect("aruco_fractal_tracker", "output_debug_image", "sink", "input");
+    pattern_graph_ptr->connect("aruco_fractal_tracker", "output", "sink_pose0", "input");
 
 // not yet possible
 //    pattern_graph_ptr->connect("aruco_output1", "output", "sink_position3dlist0", "input");
@@ -88,13 +83,13 @@ int main(int argc, char **argv) {
     pattern_graph_ptr->connect("undistort_color", "output_calibration", "sink_pose0", "input_calibration");
 
 
-    source_pattern->local_pattern.parameter["file"]["value"] = "/data/traact/fractal_test_or-005.mkv";
-    //source_pattern->local_pattern.parameter["file"]["value"] = "/home/frieder/data/fractal_test_or-005.mkv";
+    //source_pattern->local_pattern.parameter["file"]["value"] = "/data/traact/fractal_test_or-005.mkv";
+    source_pattern->local_pattern.parameter["file"]["value"] = "/home/frieder/data/fractal_test_or-005.mkv";
     render_window_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
     render_pose0_pattern->local_pattern.parameter["window"]["value"] = "ArucoImage";
 
-    aruco_input_pattern->local_pattern.parameter["MarkerConfig"]["value"] = "FRACTAL_4L_6";
-    aruco_input_pattern->local_pattern.parameter["MarkerSize"]["value"] = 0.2835;
+    aruco_tracker_pattern->local_pattern.parameter["MarkerConfig"]["value"] = "FRACTAL_4L_6";
+    aruco_tracker_pattern->local_pattern.parameter["MarkerSize"]["value"] = 0.2835;
 
 
     buffer::TimeDomainManagerConfig td_config;
@@ -109,6 +104,8 @@ int main(int argc, char **argv) {
 
     pattern_graph_ptr->timedomain_configs[0] = td_config;
 
+    my_facade.loadDataflow(pattern_graph_ptr);
+
     std::string filename = pattern_graph_ptr->name + ".json";
     {
         nlohmann::json jsongraph;
@@ -122,7 +119,7 @@ int main(int argc, char **argv) {
         std::cout << jsongraph.dump(4) << std::endl;
     }
 
-    my_facade.loadDataflow(filename);
+
 
 
 

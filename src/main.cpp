@@ -8,7 +8,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 #include <traact/serialization/JsonGraphInstance.h>
-#include <traact/component/facade/ApplicationSyncSink.h>
+#include <traact/component/generic/ApplicationSyncSink.h>
 
 #include <traact/util/Logging.h>
 #include <signal.h>
