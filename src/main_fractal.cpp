@@ -98,9 +98,9 @@ int main(int argc, char **argv) {
     td_config.master_source = "source";
     td_config.source_mode = SourceMode::WAIT_FOR_BUFFER;
     td_config.missing_source_event_mode = MissingSourceEventMode::WAIT_FOR_EVENT;
-    td_config.max_offset = std::chrono::milliseconds(10);
+    td_config.max_offset = std::chrono::milliseconds(6);
     td_config.max_delay = std::chrono::milliseconds(100);
-    td_config.measurement_delta = std::chrono::nanoseconds(33333333);
+    td_config.sensor_frequency = 15;
 
     pattern_graph_ptr->timedomain_configs[0] = td_config;
 
