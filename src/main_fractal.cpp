@@ -11,11 +11,10 @@
 
 
 #include <csignal>
-
-bool running = true;
+traact::facade::DefaultFacade my_facade{};
 void ctrlC(int i) {
     SPDLOG_INFO("User requested exit (Ctrl-C).");
-    running = false;
+    my_facade.stop();
 }
 
 int main(int argc, char **argv) {
@@ -24,7 +23,7 @@ int main(int argc, char **argv) {
     using namespace traact;
     using namespace traact::dataflow;
 
-    traact::facade::DefaultFacade my_facade{};
+    signal (SIGINT,ctrlC);
 
     util::initLogging(spdlog::level::trace,"");
 
@@ -94,7 +93,7 @@ int main(int argc, char **argv) {
 
     buffer::TimeDomainManagerConfig td_config;
     td_config.time_domain = 0;
-    td_config.ringbuffer_size = 3;
+    td_config.ringbuffer_size = 10;
     td_config.master_source = "source";
     td_config.source_mode = SourceMode::WAIT_FOR_BUFFER;
     td_config.missing_source_event_mode = MissingSourceEventMode::WAIT_FOR_EVENT;
@@ -123,13 +122,7 @@ int main(int argc, char **argv) {
 
 
 
-    my_facade.start();
-
-    while(running) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    }
-
-    my_facade.stop();
+    my_facade.blockingStart();
 
     SPDLOG_INFO("exit program");
 
