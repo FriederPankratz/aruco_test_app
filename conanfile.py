@@ -29,10 +29,7 @@ class TraactPackage(ConanFile):
 
     exports_sources = "CMakeLists.txt", "main.cpp"
 
-    # overwrite these dependencies
-    requires = (
-        "eigen/3.4.0"
-    )
+
 
     def requirements(self):
         self.requires("traact_run_env/1.0.0@traact/latest")
@@ -45,6 +42,8 @@ class TraactPackage(ConanFile):
         self.requires("traact_component_aruco/1.0.0@traact/latest")
         self.requires("traact_component_shm/1.0.0@traact/latest")
         self.requires("traact_component_pointcloud/1.0.0@traact/latest")
+        # overwrite these dependencies
+        self.requires("eigen/3.4.0")
 
     def configure(self):
         self.options['traact_core'].shared = self.options.shared

@@ -47,12 +47,12 @@ void addPlayerTrackingAndDebug(traact::DefaultInstanceGraphPtr &graph, int index
     DefaultPatternInstancePtr
         render_image_pattern = graph->addPattern(render_image_name, my_facade.instantiatePattern("RenderImage"));
 
-    DefaultPatternInstancePtr
-        render_pose_0_pattern =
-        graph->addPattern(render_pose_0_name, my_facade.instantiatePattern("RenderPose6D"));
-    DefaultPatternInstancePtr
-        render_pose_1_pattern =
-        graph->addPattern(render_pose_1_name, my_facade.instantiatePattern("RenderPose6D"));
+//    DefaultPatternInstancePtr
+//        render_pose_0_pattern =
+//        graph->addPattern(render_pose_0_name, my_facade.instantiatePattern("RenderPose6D"));
+//    DefaultPatternInstancePtr
+//        render_pose_1_pattern =
+//        graph->addPattern(render_pose_1_name, my_facade.instantiatePattern("RenderPose6D"));
 
     // configure
     source_pattern->setParameter("file", filename);
@@ -67,9 +67,9 @@ void addPlayerTrackingAndDebug(traact::DefaultInstanceGraphPtr &graph, int index
 
 
 
-    render_image_pattern->setParameter("window", render_image_name);
-    render_pose_0_pattern->setParameter("window", render_image_name);
-    render_pose_1_pattern->setParameter("window", render_image_name);
+    render_image_pattern->setParameter("Window", render_image_name);
+//    render_pose_0_pattern->setParameter("Window", render_image_name);
+//    render_pose_1_pattern->setParameter("Window", render_image_name);
     
     
     // setup connections
@@ -84,10 +84,10 @@ void addPlayerTrackingAndDebug(traact::DefaultInstanceGraphPtr &graph, int index
     //graph->connect(aruco_tracker_name, debug_output.getProducerPortName("output"), render_image_name, "input");
     graph->connect(undistort_color_name, "output", render_image_name, "input");
     
-    graph->connect(aruco_tracker_name, marker_0.getProducerPortName("output"), render_pose_0_name, "input");
-    graph->connect(undistort_color_name, "output_calibration", render_pose_0_name, "input_calibration");
-    graph->connect(aruco_tracker_name, marker_1.getProducerPortName("output"), render_pose_1_name, "input");
-    graph->connect(undistort_color_name, "output_calibration", render_pose_1_name, "input_calibration");
+//    graph->connect(aruco_tracker_name, marker_0.getProducerPortName("output"), render_pose_0_name, "input");
+//    graph->connect(undistort_color_name, "output_calibration", render_pose_0_name, "input_calibration");
+//    graph->connect(aruco_tracker_name, marker_1.getProducerPortName("output"), render_pose_1_name, "input");
+//    graph->connect(undistort_color_name, "output_calibration", render_pose_1_name, "input_calibration");
 
     
 
@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
 
     signal(SIGINT, ctrlC);
 
-    util::initLogging(spdlog::level::warn);
+    util::initLogging(spdlog::level::trace);
 
     DefaultInstanceGraphPtr graph = std::make_shared<DefaultInstanceGraph>("tracking");
 
@@ -114,13 +114,14 @@ int main(int argc, char **argv) {
 
     buffer::TimeDomainManagerConfig td_config;
     td_config.time_domain = 0;
-    td_config.ringbuffer_size = 10;
+    td_config.ringbuffer_size = 3;
     td_config.master_source = "source";
     td_config.source_mode = SourceMode::WAIT_FOR_BUFFER;
     td_config.missing_source_event_mode = MissingSourceEventMode::WAIT_FOR_EVENT;
     td_config.max_offset = std::chrono::milliseconds(8);
     td_config.max_delay = std::chrono::milliseconds(100);
     td_config.sensor_frequency = 30;
+    td_config.cpu_count = 0;
 
     graph->timedomain_configs[0] = td_config;
 

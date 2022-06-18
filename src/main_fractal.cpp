@@ -72,6 +72,7 @@ int main(int argc, char **argv) {
     // render output
     pattern_graph_ptr->connect("aruco_fractal_tracker", "output", "pose_print0", "input");
     pattern_graph_ptr->connect("aruco_fractal_tracker", "output_debug_image", "sink", "input");
+    //pattern_graph_ptr->connect("undistort_color", "output", "sink", "input");
     pattern_graph_ptr->connect("aruco_fractal_tracker", "output", "sink_pose0", "input");
 
 // not yet possible
