@@ -44,6 +44,8 @@ class TraactPackage(ConanFile):
         self.requires("traact_component_pointcloud/1.0.0@traact/latest")
         # overwrite these dependencies
         self.requires("eigen/3.4.0")
+        self.requires("spdlog/1.10.0")
+        self.requires("opencv/4.5.5@camposs/stable")
 
     def configure(self):
         self.options['traact_core'].shared = self.options.shared

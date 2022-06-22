@@ -18,7 +18,7 @@ void ctrlC(int i) {
     my_facade.stop();
 }
 
-void addPlayerTrackingAndDebug(traact::DefaultInstanceGraphPtr &graph, int index, std::string filename) {
+void addBasicProcessing(traact::DefaultInstanceGraphPtr &graph, int index, std::string filename) {
     using namespace traact;
     using namespace traact::dataflow;
 
@@ -105,12 +105,12 @@ int main(int argc, char **argv) {
 
     DefaultInstanceGraphPtr graph = std::make_shared<DefaultInstanceGraph>("tracking");
 
-    addPlayerTrackingAndDebug(graph, 0, "/home/frieder/data/recording_20210611_calib1/cn01/k4a_capture.mkv");
-    addPlayerTrackingAndDebug(graph, 1, "/home/frieder/data/recording_20210611_calib1/cn02/k4a_capture.mkv");
-    addPlayerTrackingAndDebug(graph, 2, "/home/frieder/data/recording_20210611_calib1/cn03/k4a_capture.mkv");
-    addPlayerTrackingAndDebug(graph, 3, "/home/frieder/data/recording_20210611_calib1/cn04/k4a_capture.mkv");
-    addPlayerTrackingAndDebug(graph, 4, "/home/frieder/data/recording_20210611_calib1/cn05/k4a_capture.mkv");
-    addPlayerTrackingAndDebug(graph, 5, "/home/frieder/data/recording_20210611_calib1/cn06/k4a_capture.mkv");
+    addBasicProcessing(graph, 0, "/home/frieder/data/recording_20210611_calib1/cn01/k4a_capture.mkv");
+    addBasicProcessing(graph, 1, "/home/frieder/data/recording_20210611_calib1/cn02/k4a_capture.mkv");
+    addBasicProcessing(graph, 2, "/home/frieder/data/recording_20210611_calib1/cn03/k4a_capture.mkv");
+    addBasicProcessing(graph, 3, "/home/frieder/data/recording_20210611_calib1/cn04/k4a_capture.mkv");
+    addBasicProcessing(graph, 4, "/home/frieder/data/recording_20210611_calib1/cn05/k4a_capture.mkv");
+    addBasicProcessing(graph, 5, "/home/frieder/data/recording_20210611_calib1/cn06/k4a_capture.mkv");
 
     buffer::TimeDomainManagerConfig td_config;
     td_config.time_domain = 0;
