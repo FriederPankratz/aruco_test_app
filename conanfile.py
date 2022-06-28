@@ -39,9 +39,7 @@ class TraactPackage(ConanFile):
         self.requires("traact_component_basic/1.0.0@traact/latest")
         self.requires("traact_component_kinect_azure/1.0.0@traact/latest")
         self.requires("traact_component_cereal/1.0.0@traact/latest")
-        self.requires("traact_component_aruco/1.0.0@traact/latest")
-        self.requires("traact_component_shm/1.0.0@traact/latest")
-        self.requires("traact_component_pointcloud/1.0.0@traact/latest")
+        self.requires("traact_component_aruco/1.0.0@traact/latest")        
         # overwrite these dependencies
         self.requires("eigen/3.4.0")
         self.requires("spdlog/1.10.0")
