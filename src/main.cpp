@@ -58,11 +58,11 @@ void addBasicProcessing(traact::DefaultInstanceGraphPtr &graph, int index, std::
     source_pattern->setParameter("file", filename);
     source_pattern->setParameter("stop_after_n_frames", -1);
     aruco_tracker_pattern->setParameter("Dictionary", "DICT_4X4_50");
-    aruco_tracker_pattern->setParameter("MarkerSize", 0.08);
+    aruco_tracker_pattern->setParameter("marker_size", 0.08);
     auto& marker_0 = aruco_tracker_pattern->instantiatePortGroup("output_pose");
-    marker_0.setParameter("MarkerId", 1);
+    marker_0.setParameter("marker_id", 1);
     auto& marker_1 = aruco_tracker_pattern->instantiatePortGroup("output_pose");
-    marker_1.setParameter("MarkerId", 4);
+    marker_1.setParameter("marker_id", 4);
     //auto& debug_output = aruco_tracker_pattern->instantiatePortGroup("output_debug");
 
 

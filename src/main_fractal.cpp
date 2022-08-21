@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
     render_pose0_pattern->setParameter("window", "ArucoImage");
 
     aruco_tracker_pattern->setParameter("MarkerConfig", "FRACTAL_4L_6");
-    aruco_tracker_pattern->setParameter("MarkerSize", 0.2835);
+    aruco_tracker_pattern->setParameter("marker_size", 0.2835);
 
 
     buffer::TimeDomainManagerConfig td_config;
