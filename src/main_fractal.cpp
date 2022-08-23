@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
     render_window_pattern->setParameter("window", "ArucoImage");
     render_pose0_pattern->setParameter("window", "ArucoImage");
 
-    aruco_tracker_pattern->setParameter("MarkerConfig", "FRACTAL_4L_6");
+    aruco_tracker_pattern->setParameter("marker_config", "FRACTAL_4L_6");
     aruco_tracker_pattern->setParameter("marker_size", 0.2835);
 
 
